@@ -31,19 +31,17 @@ intLists (m, n) k
 {-H2.4-}
 
 {-WETT-}
-decodeInt' :: Integer -> [Bool] -> [Bool] -> Bool -> ([Bool], [Bool])
+decodeInt' :: Integer -> [Integer] -> [Integer] -> Bool -> ([Integer], [Integer])
 decodeInt' 0 x y isx = (x, y)
 decodeInt' i x y isx
-  | isx = decodeInt' (i `div` 2) (odd i:x) y False
-  | otherwise = decodeInt' (i `div` 2) x (odd i:y) True
+  | isx = decodeInt' (i `div` 2) (mod i 2:x) y False
+  | otherwise = decodeInt' (i `div` 2) x (mod i 2:y) True
 
-num :: [Bool] -> Integer
-num [False] = 0
-num [True] = 1
-num (x:xs) = 2*(num xs) + (if x then 1 else 0)
+num :: [Integer] -> Integer
+num = foldl (\acc e -> acc *2 + e) 0
 
 decodeInt :: Integer -> (Integer, Integer)
-decodeInt x = (num $ reverse z, num $ reverse y)
+decodeInt x = (num z, num y)
   where (z, y) = decodeInt' x [] [] True
 
 decodeIntPairs :: [Integer] -> [(Integer, Integer)]
