@@ -1,5 +1,6 @@
 module Exercise_3 where
 
+import Data.List (intercalate, genericLength)
 import Test.QuickCheck
 
 {- Library DO NOT CHANGE -}
@@ -26,12 +27,17 @@ export_prop_padNumbers f xs = property $ prop_padNumbers f xs
 -- Sie dürfen allerdings die gewöhnlichen QuickCheck-Operatoren benutzen, z.B. '==>'
 -- Entfernen Sie außerdem vor Bearbeitung die Typannotation 'Bool'
 
-prop_padNumbers padNumbers xs = undefined :: Bool
+prop_padNumbers padNumbers xs = length padded == length xs ==>
+  all (\x -> length x == (length $ head padded)) padded
+  where padded = padNumbers xs
 
 {-H3.2-}
 
+wrap :: Integer -> [[String]] -> String -> [[String]]
+wrap n (line:lines) word = if genericLength (unwords (word:line)) <= n then (word:line):lines else [word]:line:lines
+
 wrapText :: Integer -> [String] -> String
-wrapText = undefined
+wrapText n ws = intercalate "\n" $ reverse $ map (unwords . reverse) $ foldl (wrap n) [[]] ws
 
 {-H3.3-}
 
