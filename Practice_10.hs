@@ -30,13 +30,13 @@ guessNum' :: Int -> Int -> IO Int
 guessNum' tries lookingFor = do
   putStrLn "Specify a number"
   num <- getLineInt
-  case () of
-    _ | num == lookingFor -> return tries
-    _ | num < lookingFor -> do
+  case num `compare` lookingFor of
+    EQ -> return tries
+    LT -> do
       putStrLn "Too small"
       putStrLn $ show lookingFor
       guessNum' (tries + 1) lookingFor
-    _ -> do
+    GT -> do
       putStrLn "Too large"
       putStrLn $ show lookingFor
       guessNum' (tries + 1) lookingFor
