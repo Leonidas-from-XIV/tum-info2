@@ -140,10 +140,3 @@ prop_uniqueElems_complete xs = all (`elem` uniqueElems xs) xs
 prop_uniqueElems_noDups :: [Int] -> Bool
 prop_uniqueElems_noDups xs =
   length (nub xs') == length xs' where xs' = uniqueElems xs
-
-{-
-Beide Testsuites sind zwar vollstaendig, aber dennoch keine guten Tests.
-Die Wahrscheinlichkeit fuer x == y in prop_single und prop_cons ist sehr gering, da
-der Typ Int viel Auswahl bietet. Deswegen braucht man sehr viele Tests um Fehler zu entdecken.
-Stattdessen waere der Typ Bool schon besser geeignet.
--}
